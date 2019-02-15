@@ -17,6 +17,10 @@ module Gemini
       @gemini2_errors.none?
     end
 
+    def guid
+      xml_doc.at_xpath("//gmd:fileIdentifier/gco:CharacterString/text()").text
+    end
+
   private
 
     attr_reader :xml_doc
