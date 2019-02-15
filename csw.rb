@@ -16,21 +16,27 @@ class GetRecords < RCSW::Client::GetRecords
       "startPosition" => 1,
       "maxRecords" => @per_page,
       "resultType" => "results",
-      "ElementSetName" => "full",
+      "ElementSetName" => "brief",
       "outputFormat" => "application/xml",
-      "outputSchema" => "http://www.opengis.net/cat/csw/2.0.2",
+      "outputSchema" => "http://www.isotc211.org/2005/gmd",
       "typeNames" => "csw:Record",
     }
 
     format = RCSW::Records::Base.new
     request_url = self.build_url(@csw_url, 'GetRecords', capabilities.version, @request_params)
 
-    request = format.read(Curl.get(request_url).body_str)
+    puts "Requesting #{request_url}"
 
-    return false if request.records.nil? or request.records.empty?
+    xml_results = Nokogiri::XML(Curl.get(request_url).body_str)
 
-    @request_params.merge!({ 'startPosition' => request.status.next_record })
-    request
+    docs = xml_results.xpath("//gmd:MD_Metadata", "gmd" => "http://www.isotc211.org/2005/gmd")
+
+    return false if docs.empty?
+
+    next_record = xml_results.at_xpath("//csw:SearchResults")["nextRecord"]
+    @request_params.merge!("startPosition" => next_record)
+
+    Struct.new(:records).new(docs)
   end
 end
 
@@ -44,7 +50,5 @@ end
 
 puts "Records:"
 records.each do |record|
-  puts "#{record.identifier}: #{record.title}"
+  puts record
 end
-
-p records.all.first
