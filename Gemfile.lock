@@ -1,18 +1,43 @@
+GIT
+  remote: https://github.com/gina-alaska/ruby-csw
+  revision: df3e003d07c238c1d1d3a0d345adb08b5ffe90b0
+  ref: df3e003d07c238c1d1d3a0d345adb08b5ffe90b0
+  specs:
+    rcsw (0.1.4)
+      curb
+      libxml-ruby
+
 GEM
   remote: https://rubygems.org/
   specs:
+    activesupport (5.2.2)
+      concurrent-ruby (~> 1.0, >= 1.0.2)
+      i18n (>= 0.7, < 2)
+      minitest (~> 5.1)
+      tzinfo (~> 1.1)
     byebug (10.0.2)
+    concurrent-ruby (1.1.4)
+    curb (0.9.8)
+    i18n (1.5.3)
+      concurrent-ruby (~> 1.0)
+    libxml-ruby (3.1.0)
     mini_portile2 (2.4.0)
+    minitest (5.11.3)
     nokogiri (1.10.1)
       mini_portile2 (~> 2.4.0)
     schematron-nokogiri (0.0.3)
       nokogiri (~> 1.6)
+    thread_safe (0.3.6)
+    tzinfo (1.2.5)
+      thread_safe (~> 0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  activesupport
   byebug
+  rcsw!
   schematron-nokogiri
 
 BUNDLED WITH
